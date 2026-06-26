@@ -32,3 +32,11 @@ jobs:
           NODE_ENV: test
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: 3000
+          JWT_EXPIRES_IN: 24h
+          DEFAULT_CHECK_INTERVAL: 60
+          FRONTEND_URL: http://localhost:5173
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: 587
+          SMTP_USER: test@test.com
+          SMTP_PASS: testpass
