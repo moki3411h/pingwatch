@@ -14,10 +14,9 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testTimeout": 30000,
-    "setupFiles": [
-      "dotenv/config"
-    ],
-    "testMatch": "[\"**/tests/**/*.test.js\"]"
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/*.test.js"
+    ]
   }
 }
