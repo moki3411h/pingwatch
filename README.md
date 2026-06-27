@@ -16,7 +16,8 @@
 ## Screenshots
 
 ### Dashboard — Monitor Overview
-![PingWatch Dashboard](./docs/dashboard.png)
+![PingWatch Dashboard](<img width="1470" height="402" alt="Screenshot 2026-06-27 at 8 08 56 PM" src="https://github.com/user-attachments/assets/eff117d4-968d-4040-a002-6624d273556c" />
+)
 *Real-time monitor list showing uptime percentage, last latency, and check interval for each endpoint*
 
 ### Monitor Detail — Latency Chart
