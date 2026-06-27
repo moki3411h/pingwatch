@@ -8,26 +8,33 @@ const logger = require('./utils/logger');
 
 const app = express();
 
-// Required on Render/Heroku/any reverse proxy.
-// Without this, express-rate-limit sees all users as the same IP
-// (the load balancer IP) and rate limits everyone together.
 app.set('trust proxy', 1);
 
 app.use(helmet());
+
 app.use(cors({
-  origin: config.isProduction ? process.env.FRONTEND_URL : 'http://localhost:5173',
+  origin: function(origin, callback) {
+    const allowed = [
+      'http://localhost:5173',
+      process.env.FRONTEND_URL,
+      'https://pingwatch-git-main-winner015.vercel.app',
+      'https://pingwatch-2rdyp9pya-winner015.vercel.app',
+    ].filter(Boolean);
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
 const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
+  windowMs: 15 * 60 * 1000, max: 100,
+  standardHeaders: true, legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
 });
 app.use(globalLimiter);
-
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false }));
 
@@ -40,11 +47,10 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Routes — we add these as we build each module
-try { app.use('/api/auth', require('./routes/auth.routes')); } catch(e) { logger.warn('auth routes not ready'); }
-try { app.use('/api/monitors', require('./routes/monitor.routes')); } catch(e) { logger.warn('monitor routes not ready'); }
+try { app.use('/api/auth',      require('./routes/auth.routes'));     } catch(e) { logger.warn('auth routes not ready'); }
+try { app.use('/api/monitors',  require('./routes/monitor.routes'));  } catch(e) { logger.warn('monitor routes not ready'); }
 try { app.use('/api/incidents', require('./routes/incident.routes')); } catch(e) { logger.warn('incident routes not ready'); }
-try { app.use('/api/stats', require('./routes/stats.routes')); } catch(e) { logger.warn('stats routes not ready'); }
+try { app.use('/api/stats',     require('./routes/stats.routes'));    } catch(e) { logger.warn('stats routes not ready'); }
 
 app.use((req, res) => {
   res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });
