@@ -7,18 +7,17 @@ const config = require('./config');
 const logger = require('./utils/logger');
 
 const app = express();
-
 app.set('trust proxy', 1);
-
 app.use(helmet());
 
 app.use(cors({
   origin: function(origin, callback) {
     const allowed = [
       'http://localhost:5173',
-      process.env.FRONTEND_URL,
       'https://pingwatch-git-main-winner015.vercel.app',
       'https://pingwatch-2rdyp9pya-winner015.vercel.app',
+      'https://pingwatch-rho.vercel.app',
+      process.env.FRONTEND_URL,
     ].filter(Boolean);
     if (!origin || allowed.includes(origin)) {
       callback(null, true);
