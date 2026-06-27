@@ -8,6 +8,11 @@ const logger = require('./utils/logger');
 
 const app = express();
 
+// Required on Render/Heroku/any reverse proxy.
+// Without this, express-rate-limit sees all users as the same IP
+// (the load balancer IP) and rate limits everyone together.
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(cors({
   origin: config.isProduction ? process.env.FRONTEND_URL : 'http://localhost:5173',
