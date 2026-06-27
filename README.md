@@ -21,7 +21,8 @@
 *Real-time monitor list showing uptime percentage, last latency, and check interval for each endpoint*
 
 ### Monitor Detail — Latency Chart
-![Monitor Detail](./docs/monitor-detail.png)
+![Monitor Detail](<img width="1468" height="838" alt="Screenshot 2026-06-27 at 8 10 09 PM" src="https://github.com/user-attachments/assets/6cbb1253-2a5a-42d0-8d37-b7420b65e431" />
+)
 *Per-monitor view with latency trend chart across the last 50 pings, p95 latency, and full ping history log*
 
 ---
